@@ -4,12 +4,13 @@ var template = require('../lib/template.js');
 var auth = require('../lib/auth');
 
 router.get('/', function (request, response) {
-    console.log('/라우터로 이동함===============================',request.user)
-  var fmsg = request.flash();
-  var feedback = '';
-  if(fmsg.success){
-    feedback = fmsg.success[0];
-  }
+    var fmsg= request.flash()
+    console.log('/ fmsg===================',fmsg)
+    var feedback = ''
+
+    if(fmsg.success){
+        feedback = fmsg.success[0]
+    }
   var title = 'Welcome';
   var description = 'Hello, Node.js';
 //   var list = template.list(request.list);

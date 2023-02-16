@@ -8,13 +8,19 @@ var template = require('../lib/template.js');
 
 
 
-  router.get('/login', function (request, response) {
+router.get('/login', function (request, response) {
+    var fmsg= request.flash()
+    console.log('/login fmsg===================',fmsg)
+    var feedback = ''
 
-
+    if(fmsg.error){
+        feedback = fmsg.error[0]
+    }
     var title = 'WEB - login';
     // var list = template.list(request.list);
     var list = []
     var html = template.HTML(title, list, `
+    <div style="color:red;">${feedback}</div>
       <form action="/auth/login_process" method="post">
         <p><input type="text" name="email" placeholder="email"></p>
         <p><input type="password" name="pwd" placeholder="password"></p>
@@ -24,7 +30,7 @@ var template = require('../lib/template.js');
       </form>
     `, '');
     response.send(html);
-  });
+});
 
 //   router.post('/login_process',
 //     // passport.authenticate('local', {
@@ -38,12 +44,12 @@ var template = require('../lib/template.js');
 //     }
 //     );
 
-  router.get('/logout', function (request, response) {
+router.get('/logout', function (request, response) {
     request.logout();
     //현재 세션의 상태를 세션스토어에 저장함. 저장완료되면 리다이렉트
     request.session.save(function () {
-      response.redirect('/');
+        response.redirect('/');
     });
-  });
+});
 
-  module.exports = router;
+module.exports = router;

@@ -100,7 +100,9 @@ passport.use(new LocalStrategy(
         console.log('비번은 일치함')
         //특이점! 여기서 true를 2번째 인자로 줘버리면 authData는 시리얼라이즈에서 못받는다.
         // ture는 무시하고 바로 authData를 전달할것
-        return done(null, authData)
+        return done(null, authData, {
+          message: 'correct user'
+        })
       } else {
         console.log('password 불일치함')
 
@@ -113,7 +115,7 @@ passport.use(new LocalStrategy(
       console.log('이메일은 불일치함')
 
       return done(null, false, {
-        message: 'Incorrect username'
+        message: 'Incorrect user'
       })
     }
 
@@ -155,7 +157,10 @@ app.post('/auth/login_process',
       //성공시에는 home으로 보내버린다.
       successRedirect: '/',
       //실패했을때는 다시 로그인을 요청해야한다.
-      failureRedirect: '/login'
+      failureRedirect: '/auth/login',
+      failureFlash : true,
+      successFlash : true
+
     }
 
     //아래 function 방식으로도 callback이 호출이 가능하다.
