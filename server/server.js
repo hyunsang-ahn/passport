@@ -29,6 +29,8 @@ app.use(session({
 
 
 
+
+
 //패스포트 선언부-=======================================
 
 var passport = require('passport');
@@ -49,6 +51,8 @@ var authData = {
 app.use(passport.initialize())
 //패스포트 세션 사용
 app.use(passport.session())
+//커넥트 플래쉬
+app.use(flash())
 //패스포트 미들웨어 끝============================
 
 
@@ -192,6 +196,22 @@ app.use('/', indexRouter);
 app.use('/auth', authRouter);
 
 // var passport = require('./lib/passport')(app);
+
+app.get('/flash', function (req, res) {
+  req.flash('info', 'flash is back!')
+  res.send('flash')
+
+})
+
+app.get('/flash-display', function (req, res) {
+  var fmsg = req.flash();
+  console.log('fmsg===================',fmsg)
+  res.send(fmsg)
+
+})
+
+
+
 
 app.get('*', function (request, response, next) {
   fs.readdir('./data', function (error, filelist) {
