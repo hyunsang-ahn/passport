@@ -40,6 +40,7 @@ var template = require('../lib/template.js');
 
   router.get('/logout', function (request, response) {
     request.logout();
+    //현재 세션의 상태를 세션스토어에 저장함. 저장완료되면 리다이렉트
     request.session.save(function () {
       response.redirect('/');
     });
